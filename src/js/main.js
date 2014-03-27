@@ -16,7 +16,6 @@ canvas.height = height;
 var groundHeight = 60; 
 var enterPressed = false;  
 var obstacles = []; 
-var clouds = [];
 var distSinceLastObstacle = 9999;
 var gapHeight = 110;
 var obstWidth = 40; 
@@ -32,8 +31,6 @@ var keys = [];
 
 
 //images
-var cloudImg = new Image(); 
-cloudImg.src ='cloud.png';
 var grassImg = new Image(); 
 grassImg.src = 'grass.png';
 var backgroundImg = new Image(); 
