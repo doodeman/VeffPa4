@@ -47,4 +47,20 @@ function Obstacle (canvasWidth, gapPos, gapSize, colWidth) {
 			return true; 
 		}
 	}
+
+	this.render = function(context) {
+		context.fillStyle = "blue"; 
+		//render top part of obstacle
+		var imgPos = this.topColumn.height - topObstacleImg.height;
+		//ctx.fillRect(obstacles[i].topColumn.x, obstacles[i].topColumn.y, obstacles[i].topColumn.width, obstacles[i].topColumn.height);
+		context.drawImage(topObstacleImg, this.topColumn.x, imgPos,
+			this.width, topObstacleImg.height);
+		//render bottom part of obstacles
+		//ctx.fillRect(obstacles[i].botColumn.x, obstacles[i].botColumn.y, obstacles[i].botColumn.width, obstacles[i].botColumn.height);
+		context.drawImage(obstacleImg, this.botColumn.x, this.botColumn.y,
+			this.width, obstacleImg.height);
+		//move the obstacle to the left
+		this.topColumn.x -= 1; 
+		this.botColumn.x -= 1; 
+	}
 }
