@@ -22,22 +22,57 @@ canvas.height = height;
  
 var enterPressed = false;  
 var obstacles = []; 
+var clouds = [];
 var distSinceLastObstacle = 9999;
 var gapHeight = 100;
 var obstWidth = 20; 
 var score = 0; 
 var dead = false; 
+var img = new Image(); 
+img.src ='cloud.png';
 
 function update() {
 	if (!dead) {
-		//render player
+		//clear canvas
 		ctx.clearRect(0,0,canvas.width, canvas.height);
+		
+		//render background 
+		ctx.fillStyle = "#8AF1F2";
+		ctx.fillRect(0,0,canvas.width, canvas.height);
+
+		//render clouds
+		for (var i = 0; i < clouds.length; i++) {
+			if(clouds[i].x < -50) {
+				clouds.splice(i, 1);
+			}
+			else {
+				ctx.drawImage(img, clouds[i].x, clouds[i].y, 
+					img.width * clouds[i].scale, img.height * clouds[i].scale);
+				//ctx.drawImage(img,clouds[i].x, clouds[i].y);
+				//move the cloud to the left 
+				clouds[i].x -= clouds[i].velocity; 
+			}
+		}
+
+		//2.5% chance per frame of adding new cloud 
+		var random = Math.random(); 
+		if (random <= 0.025) {
+			console.log("adding cloud " + clouds.length);
+			var velocity = Math.floor(getRandomNumberInRange(2, 4)); 
+			var scalingMultiplier = getRandomNumberInRange(0.1,0.3);
+			var cloudHeight = getRandomNumberInRange(10, canvas.height-200);
+			clouds.push(new Cloud(canvas.width, cloudHeight, scalingMultiplier, velocity));
+		}
+
+
+
+		//render player
 		ctx.fillStyle = "red";
 		ctx.fillRect(player.x, player.y, player.width, player.height);
 
 		//console.log(obstacles.length);
 		//render obstacles
-		for (var i = 0; i < obstacles.length; i++) {
+		for (i = 0; i < obstacles.length; i++) {
 			//remove if gone
 			if (obstacles[i].x < 20) {
 				obstacles.splice(i, 1);
@@ -80,7 +115,7 @@ function update() {
 
 		//add obstacle
 		if (distSinceLastObstacle > 200) {
-			var gapPos = Math.floor(Math.random()*(canvas.height-200)) + 100;
+			var gapPos = Math.floor(getRandomNumberInRange(100, canvas.height-100));
 			obstacles.push(new Obstacle(canvas.width, gapPos, gapHeight, obstWidth));
 			distSinceLastObstacle = 0; 
 		}
@@ -113,3 +148,8 @@ $(document).keypress(function(e) {
 window.addEventListener("load", function() {
 	update();
 });
+
+//returns a random number between min and max
+function getRandomNumberInRange(min, max) {
+	return Math.random() * (max - min) + min; 
+}
