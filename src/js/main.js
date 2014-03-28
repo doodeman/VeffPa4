@@ -71,6 +71,7 @@ function reset() {
 	time = 0; 
 	obstacles = [];
 	dead = false; 
+	score = 0;
 }
 
 
