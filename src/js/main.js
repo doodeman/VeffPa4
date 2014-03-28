@@ -29,6 +29,9 @@ var time = 0;
 var backgrounds = [];
 var keys = []; 
 
+//touch support
+canvas.addEventListener("touchstart", function (e) {
+enterPressed = true}, false);
 
 //images
 var grassImg = new Image(); 
